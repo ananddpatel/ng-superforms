@@ -55,10 +55,10 @@ export class QuestionControlService {
   }
 
   generateFormGroup(schema) {
-    let result = {};
+    const result = {};
     schema.children.forEach(item => {
       if (item.children.length > 0) {
-        result = {...result, [item.id]: this.fb.group(this.generateFormGroup(item))};
+        result[item.id] = this.fb.group(this.generateFormGroup(item));
       } else {
         result[item.id] = [''];
       }

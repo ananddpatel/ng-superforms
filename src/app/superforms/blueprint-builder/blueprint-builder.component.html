@@ -7,7 +7,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div> -->
-  <div class="modal-body">
+  <!-- <div class="modal-body">
     <div class="container mt-5">
       <div class="p-3 mb-2 border-primary" *ngFor="let item of schema.children; let i = index">
           <input type="text" name="" id="" [(ngModel)]="item.id">
@@ -35,11 +35,11 @@
     </div>
 
 
-  </div>
+  </div> -->
 
-  <form *ngIf="myForm" [formGroup]="myForm">
+  <!-- <form *ngIf="myForm" [formGroup]="myForm">
       <div class="form-group" *ngFor="let item of schema.children">
-        <ng-container *ngIf="item.children.length > 0 else normal">
+        <ng-container *ngIf="item.children?.length > 0 else normal">
             <div class="d-flex justify-content-between">
               <div class="form-group w-100" [formGroupName]="item.id" *ngFor="let subItem of item.children">
                 <label [for]="item.id">{{subItem.id}}</label>
@@ -53,7 +53,35 @@
         </ng-template>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+  </form> -->
   <!-- <div class="modal-footer">
   </div>
 </ng-template> -->
+
+
+
+<form *ngIf="myForm" [formGroup]="myForm">
+    <h3 class="text-center">{{schema.name}}</h3>
+    <ng-container *ngFor="let item of schema.children">
+      <ng-container *ngTemplateOutlet="formItem; context: {item: item, group: myForm}"></ng-container>
+    </ng-container>
+</form>
+
+<ng-template #formItem let-item="item" let-group="group">
+  <div [formGroup]="group" class="form-group">
+    <ng-container [ngSwitch]="item.type">
+      <ng-container *ngSwitchCase="formTypes.STRING">
+          <label [for]="item.id">{{item.name}}</label>
+          <input  [formControlName]="item.id" class="form-control" [id]="item.id" [placeholder]="item.placeholder">
+          <small *ngIf="item.helptext" class="form-text" [innerHTML]="item.helptext"></small>
+      </ng-container>
+      <ng-container *ngSwitchCase="formTypes.CHILD">
+          <!-- <label [for]="item.id">{{item.id}}</label> -->
+          <h3 class="text-center">{{item.name}}</h3>
+          <ng-container *ngFor="let subItem of item.children">
+            <ng-container *ngTemplateOutlet="formItem; context: {item: subItem, group: group.get(item.id)}"></ng-container>
+          </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>
