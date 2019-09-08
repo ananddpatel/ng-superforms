@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { QuestionBase, DropdownQuestion, TextboxQuestion } from '../models/questions';
+import { Types } from '../blueprint-builder/formModels';
 
 @Injectable()
 export class QuestionControlService {
@@ -19,17 +20,15 @@ export class QuestionControlService {
   }
 
   getQuestions() {
-
     const questions: QuestionBase<any>[] = [
-
       new DropdownQuestion({
         key: 'brave',
         label: 'Bravery Rating',
         options: [
-          {key: 'solid',  value: 'Solid'},
-          {key: 'great',  value: 'Great'},
-          {key: 'good',   value: 'Good'},
-          {key: 'unproven', value: 'Unproven'}
+          { id: 'solid', text: 'Solid' },
+          { id: 'great', text: 'Great' },
+          { id: 'good', text: 'Good' },
+          { id: 'unproven', text: 'Unproven' }
         ],
         order: 3
       }),
@@ -59,6 +58,8 @@ export class QuestionControlService {
     schema.children.forEach(item => {
       if (item.children.length > 0) {
         result[item.id] = this.fb.group(this.generateFormGroup(item));
+      } else if (item.type === Types.CHECKBOX) {
+        result[item.id] = this.fb.array(item.options.map(item => [false]));
       } else {
         result[item.id] = [''];
       }

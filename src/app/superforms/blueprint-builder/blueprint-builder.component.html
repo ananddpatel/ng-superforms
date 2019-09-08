@@ -1,3 +1,62 @@
+<form *ngIf="myForm" [formGroup]="myForm">
+  <h3 class="text-center">{{ schema.name }}</h3>
+  <ng-container *ngFor="let item of schema.children">
+    <ng-container *ngTemplateOutlet="formItem; context: { item: item, group: myForm }"></ng-container>
+  </ng-container>
+</form>
+
+<ng-template #formItem let-item="item" let-group="group">
+  <div [formGroup]="group" class="form-group">
+    <ng-container [ngSwitch]="item.type">
+      <ng-container *ngSwitchCase="formTypes.STRING">
+        <label [for]="item.id">{{ item.name }}</label>
+        <input [formControlName]="item.id" class="form-control" [id]="item.id" [placeholder]="item.placeholder" />
+        <small *ngIf="item.helptext" class="form-text" [innerHTML]="item.helptext"></small>
+      </ng-container>
+      <ng-container *ngSwitchCase="formTypes.TEXTAREA">
+        <label [for]="item.id">{{ item.name }}</label>
+        <textarea [formControlName]="item.id" class="form-control" [id]="item.id" [placeholder]="item.placeholder"></textarea>
+        <small *ngIf="item.helptext" class="form-text" [innerHTML]="item.helptext"></small>
+      </ng-container>
+      <ng-container *ngSwitchCase="formTypes.DROPDOWN">
+        <label [for]="item.id">{{ item.name }}</label>
+        <ngx-select [items]="item.options" [placeholder]="item.placeholder" tabindex="-1" [formControlName]="item.id"></ngx-select>
+        <small *ngIf="item.helptext" class="form-text" [innerHTML]="item.helptext"></small>
+      </ng-container>
+      <ng-container *ngSwitchCase="formTypes.CHECKBOX">
+        <p>{{ item.name }}</p>
+        <div [formArrayName]="item.id" *ngFor="let opt of item.options; let i = index" class="form-check form-check-inline">
+          <input [formControlName]="i" class="form-check-input" type="checkbox" [id]="item.id + opt.id" [value]="opt.id" />
+          <label class="form-check-label" [for]="item.id + opt.id">{{ opt.text }}</label>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="formTypes.RADIO">
+        <p>{{ item.name }}</p>
+        <div *ngFor="let opt of item.options; let i = index" class="form-check">
+          <input
+            class="form-check-input"
+            [checked]="i === 0"
+            [formControlName]="item.id"
+            type="radio"
+            [id]="item.id + opt.id"
+            [value]="opt.id"
+          />
+          <label class="form-check-label" [for]="item.id + opt.id">
+            {{ opt.text }}
+          </label>
+        </div>
+        <small *ngIf="item.helptext" class="form-text" [innerHTML]="item.helptext"></small>
+      </ng-container>
+      <ng-container *ngSwitchCase="formTypes.CHILD">
+        <h3 class="text-center">{{ item.name }}</h3>
+        <ng-container *ngFor="let subItem of item.children">
+          <ng-container *ngTemplateOutlet="formItem; context: { item: subItem, group: group.get(item.id) }"></ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>
+
 <!-- <button class="btn btn-lg btn-outline-primary" (click)="open()">Form Blueprint Builder</button> -->
 
 <!-- <ng-template #content let-modal>
@@ -7,7 +66,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div> -->
-  <!-- <div class="modal-body">
+<!-- <div class="modal-body">
     <div class="container mt-5">
       <div class="p-3 mb-2 border-primary" *ngFor="let item of schema.children; let i = index">
           <input type="text" name="" id="" [(ngModel)]="item.id">
@@ -37,7 +96,7 @@
 
   </div> -->
 
-  <!-- <form *ngIf="myForm" [formGroup]="myForm">
+<!-- <form *ngIf="myForm" [formGroup]="myForm">
       <div class="form-group" *ngFor="let item of schema.children">
         <ng-container *ngIf="item.children?.length > 0 else normal">
             <div class="d-flex justify-content-between">
@@ -54,34 +113,6 @@
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
   </form> -->
-  <!-- <div class="modal-footer">
+<!-- <div class="modal-footer">
   </div>
 </ng-template> -->
-
-
-
-<form *ngIf="myForm" [formGroup]="myForm">
-    <h3 class="text-center">{{schema.name}}</h3>
-    <ng-container *ngFor="let item of schema.children">
-      <ng-container *ngTemplateOutlet="formItem; context: {item: item, group: myForm}"></ng-container>
-    </ng-container>
-</form>
-
-<ng-template #formItem let-item="item" let-group="group">
-  <div [formGroup]="group" class="form-group">
-    <ng-container [ngSwitch]="item.type">
-      <ng-container *ngSwitchCase="formTypes.STRING">
-          <label [for]="item.id">{{item.name}}</label>
-          <input  [formControlName]="item.id" class="form-control" [id]="item.id" [placeholder]="item.placeholder">
-          <small *ngIf="item.helptext" class="form-text" [innerHTML]="item.helptext"></small>
-      </ng-container>
-      <ng-container *ngSwitchCase="formTypes.CHILD">
-          <!-- <label [for]="item.id">{{item.id}}</label> -->
-          <h3 class="text-center">{{item.name}}</h3>
-          <ng-container *ngFor="let subItem of item.children">
-            <ng-container *ngTemplateOutlet="formItem; context: {item: subItem, group: group.get(item.id)}"></ng-container>
-          </ng-container>
-      </ng-container>
-    </ng-container>
-  </div>
-</ng-template>

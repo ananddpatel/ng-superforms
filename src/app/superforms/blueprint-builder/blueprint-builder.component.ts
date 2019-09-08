@@ -2,53 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionControlService } from '../services/question-control.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { debounceTime, map } from 'rxjs/operators';
-
-export enum Types {
-  PARENT = 'PARENT',
-  CHILD = 'CHILD',
-  STRING = 'STRING',
-  NUMBER = 'NUMBER',
-  TEXTAREA = 'TEXTAREA',
-  DROPDOWN = 'DROPDOWN',
-  RADIO = 'RADIO',
-  CHECKBOX = 'CHECKBOX'
-}
-
-export interface ISuperFormItem {
-  id: any;
-  type: Types;
-  name: any;
-  children: ISuperFormItem[];
-  helptext: string;
-  placeholder: string;
-}
-
-export class SuperFormItem implements ISuperFormItem {
-  placeholder = '';
-  type: Types = Types.STRING;
-  children: ISuperFormItem[] = [];
-  name: any = '';
-  id: any = '';
-  _helptext: string;
-
-  constructor(formItem: Partial<ISuperFormItem> = {}) {
-    Object.assign(this, formItem);
-  }
-
-  set helptext(value: string) {
-    this._helptext = value
-      .split('\n')
-      .map(item => item.trim())
-      .filter(item => item.length > 0)
-      .map(item => `<p class="my-1">${item}</p>`)
-      .join('\n');
-  }
-
-  get helptext() {
-    return this._helptext;
-  }
-}
+import { debounceTime } from 'rxjs/operators';
+import { Types, ISuperFormItem, SuperFormItem } from './formModels';
 
 @Component({
   selector: 'app-blueprint-builder',
@@ -87,6 +42,31 @@ export class BlueprintBuilderComponent implements OnInit {
             name: 'Last Name'
           })
         ]
+      }),
+      new SuperFormItem({
+        id: 'gender',
+        name: 'Gender',
+        type: Types.RADIO,
+        options: [{ id: 'male', text: 'Male' }, { id: 'female', text: 'Female' }]
+      }),
+      new SuperFormItem({
+        id: 'language',
+        name: 'Spoken Languages',
+        type: Types.CHECKBOX,
+        options: [{ id: 'en', text: 'English' }, { id: 'fr', text: 'French' }, { id: 'other', text: 'Other' }]
+      }),
+      new SuperFormItem({
+        id: 'aboutMe',
+        name: 'About Me',
+        type: Types.TEXTAREA,
+        placeholder: 'Tell us about your self',
+        helptext: 'Tell us about your self'
+      }),
+      new SuperFormItem({
+        id: 'priority',
+        name: 'Priority',
+        type: Types.DROPDOWN,
+        options: [{ id: '4', text: 'Urgent' }, { id: '3', text: 'High' }, { id: '2', text: 'Medium' }, { id: '1', text: 'Low' }]
       })
     ]
   });

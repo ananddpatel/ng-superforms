@@ -1,4 +1,7 @@
-export interface Option {key: string; value: string; }
+export interface Option {
+  id: string;
+  text: string;
+}
 
 export interface BaseQuestionOptions<T> {
   value?: T;
@@ -24,7 +27,7 @@ export class QuestionBase<T> implements BaseQuestionOptions<T> {
   order: number;
   controlType: string;
 
-  constructor(options: BaseQuestionOptions<T>  = {}) {
+  constructor(options: BaseQuestionOptions<T> = {}) {
     this.value = options.value;
     this.key = options.key || '';
     this.label = options.label || '';
@@ -38,7 +41,7 @@ export class TextboxQuestion extends QuestionBase<string> {
   controlType = 'textbox';
   type: string;
 
-  constructor(options: TextboxQuestionOptions<string> = {type: ''}) {
+  constructor(options: TextboxQuestionOptions<string> = { type: '' }) {
     super(options);
     this.type = options['type'] || '';
   }
@@ -48,7 +51,7 @@ export class DropdownQuestion extends QuestionBase<string> {
   controlType = 'dropdown';
   options: Option[] = [];
 
-  constructor(options: DropdownQuestionOptions<string> = {options: []}) {
+  constructor(options: DropdownQuestionOptions<string> = { options: [] }) {
     super(options);
     this.options = options['options'] || [];
   }

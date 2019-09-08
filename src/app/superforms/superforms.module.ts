@@ -6,15 +6,12 @@ import { QuestionControlService } from './services/question-control.service';
 import { SuperFormComponent } from './super-form/super-form.component';
 import { QuestionComponent } from './question/question.component';
 import { QuestionService } from './services/question.service';
+import { NgxSelectModule } from 'ngx-select-ex';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgxSelectModule],
   declarations: [BlueprintBuilderComponent, SuperFormComponent, QuestionComponent],
   exports: [BlueprintBuilderComponent, SuperFormComponent, QuestionComponent],
   providers: [QuestionControlService, QuestionService]
 })
-export class SuperformsModule { }
+export class SuperformsModule {}
