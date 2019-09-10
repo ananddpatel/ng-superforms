@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { QuestionBase, DropdownQuestion, TextboxQuestion } from '../models/questions';
-import { Types } from '../blueprint-builder/formModels';
+import { SupportedTypes } from '../blueprint-builder/formModels';
 
 @Injectable()
 export class QuestionControlService {
@@ -54,16 +54,22 @@ export class QuestionControlService {
   }
 
   generateFormGroup(schema) {
-    const result = {};
+    let result = {};
+    // let result = {[schema.id]: {}};
     schema.children.forEach(item => {
       if (item.children.length > 0) {
-        result[item.id] = this.fb.group(this.generateFormGroup(item));
-      } else if (item.type === Types.CHECKBOX) {
-        result[item.id] = this.fb.array(item.options.map(item => [false]));
+        result[item.id] = this.generateFormGroup(item);
+        // result = { ...result, [item.id]: this.fb.group(this.generateFormGroup(item)) };
+      } else if (item.type === SupportedTypes.CHECKBOX) {
+        // result = { ...result, [item.id]: this.fb.array(item.options.map(_ => [false])) };
+        result[item.id] = this.fb.array(item.options.map(_ => [false]));
       } else {
+        // result = { ...result, [item.id]: [''] };
         result[item.id] = [''];
       }
     });
-    return result;
+    console.log(result);
+
+    return this.fb.group(result);
   }
 }

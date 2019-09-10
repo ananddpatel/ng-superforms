@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionControlService } from '../services/question-control.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
-import { Types, ISuperFormItem, SuperFormItem } from './formModels';
+import { SupportedTypes, ISuperFormItem, SuperFormItem } from './formModels';
 
 @Component({
   selector: 'app-blueprint-builder',
@@ -12,11 +12,11 @@ import { Types, ISuperFormItem, SuperFormItem } from './formModels';
 })
 export class BlueprintBuilderComponent implements OnInit {
   @ViewChild('content') content;
-  formTypes = Types;
+  formTypes = SupportedTypes;
   schema: ISuperFormItem = new SuperFormItem({
     name: 'My Demo Form',
     id: 'demoForm',
-    type: Types.PARENT,
+    type: SupportedTypes.PARENT,
     children: [
       new SuperFormItem({
         id: 'email',
@@ -31,7 +31,7 @@ export class BlueprintBuilderComponent implements OnInit {
       new SuperFormItem({
         id: 'name',
         name: 'Name',
-        type: Types.CHILD,
+        type: SupportedTypes.CHILD,
         children: [
           new SuperFormItem({
             name: 'First Name',
@@ -40,32 +40,64 @@ export class BlueprintBuilderComponent implements OnInit {
           new SuperFormItem({
             id: 'last',
             name: 'Last Name'
+          }),
+          new SuperFormItem({
+            id: 'sometOtherItems',
+            name: 'Some Other Items',
+            type: SupportedTypes.CHILD,
+            children: [
+              new SuperFormItem({
+                id: 'gender1',
+                name: 'Gender',
+                type: SupportedTypes.RADIO,
+                options: [{ id: 'male', text: 'Male' }, { id: 'female', text: 'Female' }]
+              }),
+              new SuperFormItem({
+                id: 'language1',
+                name: 'Spoken Languages',
+                type: SupportedTypes.CHECKBOX,
+                options: [{ id: 'en', text: 'English' }, { id: 'fr', text: 'French' }, { id: 'other', text: 'Other' }]
+              }),
+              new SuperFormItem({
+                id: 'aboutMe123',
+                name: 'About Me',
+                type: SupportedTypes.TEXTAREA,
+                placeholder: 'Tell us about your self',
+                helptext: 'Tell us about your self'
+              }),
+              new SuperFormItem({
+                id: 'priority12312',
+                name: 'Priority',
+                type: SupportedTypes.DROPDOWN,
+                options: [{ id: '4', text: 'Urgent' }, { id: '3', text: 'High' }, { id: '2', text: 'Medium' }, { id: '1', text: 'Low' }]
+              })
+            ]
           })
         ]
       }),
       new SuperFormItem({
         id: 'gender',
         name: 'Gender',
-        type: Types.RADIO,
+        type: SupportedTypes.RADIO,
         options: [{ id: 'male', text: 'Male' }, { id: 'female', text: 'Female' }]
       }),
       new SuperFormItem({
         id: 'language',
         name: 'Spoken Languages',
-        type: Types.CHECKBOX,
+        type: SupportedTypes.CHECKBOX,
         options: [{ id: 'en', text: 'English' }, { id: 'fr', text: 'French' }, { id: 'other', text: 'Other' }]
       }),
       new SuperFormItem({
         id: 'aboutMe',
         name: 'About Me',
-        type: Types.TEXTAREA,
+        type: SupportedTypes.TEXTAREA,
         placeholder: 'Tell us about your self',
         helptext: 'Tell us about your self'
       }),
       new SuperFormItem({
         id: 'priority',
         name: 'Priority',
-        type: Types.DROPDOWN,
+        type: SupportedTypes.DROPDOWN,
         options: [{ id: '4', text: 'Urgent' }, { id: '3', text: 'High' }, { id: '2', text: 'Medium' }, { id: '1', text: 'Low' }]
       })
     ]
@@ -76,7 +108,7 @@ export class BlueprintBuilderComponent implements OnInit {
   constructor(private modalService: NgbModal, private qcs: QuestionControlService, private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.myForm = this.fb.group(this.qcs.generateFormGroup(this.schema));
+    this.myForm = this.qcs.generateFormGroup(this.schema);
     this.myForm.valueChanges.pipe(debounceTime(500)).subscribe(console.log);
   }
 

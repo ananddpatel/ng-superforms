@@ -1,3 +1,4 @@
+<pre *ngIf="myForm">{{ myForm.value | json }}</pre>
 <form *ngIf="myForm" [formGroup]="myForm">
   <h3 class="text-center">{{ schema.name }}</h3>
   <ng-container *ngFor="let item of schema.children">
@@ -56,63 +57,3 @@
     </ng-container>
   </div>
 </ng-template>
-
-<!-- <button class="btn btn-lg btn-outline-primary" (click)="open()">Form Blueprint Builder</button> -->
-
-<!-- <ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Hi there!</h4>
-    <button type="button" class="close" aria-label="Close" (click)="content.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div> -->
-<!-- <div class="modal-body">
-    <div class="container mt-5">
-      <div class="p-3 mb-2 border-primary" *ngFor="let item of schema.children; let i = index">
-          <input type="text" name="" id="" [(ngModel)]="item.id">
-        <div class="d-flex justify-content-between">
-          <div class="p-3 mb-2 w-100 border-success" *ngFor="let subItem of item.children; let j = index">
-              <input type="text" name="" id="" [(ngModel)]="subItem.id">
-          </div>
-          <div>
-            <button class="ml-auto" (click)="addToSchema(i)">+</button>
-          </div>
-        </div>
-      </div>
-      <button (click)="addToSchema()">+</button>
-    </div>
-
-    <button (click)="toggleJson()">toggleJson</button>
-    <button (click)="generateForm()">generateForm</button>
-    <div class="row">
-      <div class="col-6">
-          forDb<pre *ngIf="!jsonSchemaHidden">{{ schema | json }}</pre>
-      </div>
-      <div class="col-6">
-          forAngular<pre *ngIf="!jsonSchemaHidden && myForm">{{ myForm.value | json }}</pre>
-      </div>
-    </div>
-
-
-  </div> -->
-
-<!-- <form *ngIf="myForm" [formGroup]="myForm">
-      <div class="form-group" *ngFor="let item of schema.children">
-        <ng-container *ngIf="item.children?.length > 0 else normal">
-            <div class="d-flex justify-content-between">
-              <div class="form-group w-100" [formGroupName]="item.id" *ngFor="let subItem of item.children">
-                <label [for]="item.id">{{subItem.id}}</label>
-                <input  [formControlName]="subItem.id" class="form-control" [id]="subItem.id" [placeholder]="subItem.id">
-              </div>
-            </div>
-        </ng-container>
-        <ng-template #normal>
-          <label [for]="item.id">{{item.id}}</label>
-          <input  [formControlName]="item.id" class="form-control" [id]="item.id" [placeholder]="item.id">
-        </ng-template>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-  </form> -->
-<!-- <div class="modal-footer">
-  </div>
-</ng-template> -->

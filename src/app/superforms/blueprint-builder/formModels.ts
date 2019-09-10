@@ -1,5 +1,5 @@
 import { Option } from '../models/questions';
-export enum Types {
+export enum SupportedTypes {
   PARENT = 'PARENT',
   CHILD = 'CHILD',
   STRING = 'STRING',
@@ -11,7 +11,7 @@ export enum Types {
 }
 export interface ISuperFormItem {
   id: any;
-  type: Types;
+  type: SupportedTypes;
   name: any;
   children: ISuperFormItem[];
   helptext: string;
@@ -20,7 +20,7 @@ export interface ISuperFormItem {
 }
 export class SuperFormItem implements ISuperFormItem {
   placeholder = '';
-  type: Types = Types.STRING;
+  type: SupportedTypes = SupportedTypes.STRING;
   children: ISuperFormItem[] = [];
   name: any = '';
   id: any = '';
