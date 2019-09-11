@@ -1,4 +1,15 @@
 <pre *ngIf="myForm">{{ myForm.value | json }}</pre>
+
+<div class="row py-3">
+  <div class="col-6 py-2 ngx-dnd-container border border-primary" ngxDroppable>
+    <div class="ngx-dnd-item" ngxDraggable [ngxDraggable]="['example-target']">Item 1</div>
+    <div class="ngx-dnd-item" ngxDraggable [ngxDraggable]="['example-target']">Item 2</div>
+    <div class="ngx-dnd-item" ngxDraggable [ngxDraggable]="['example-target']">Item 3</div>
+  </div>
+
+  <div class="col-6 py-2 ngx-dnd-container border border-secondary" ngxDroppable="example-target"></div>
+</div>
+
 <form *ngIf="myForm" [formGroup]="myForm">
   <h3 class="text-center">{{ schema.name }}</h3>
   <ng-container *ngFor="let item of schema.children">

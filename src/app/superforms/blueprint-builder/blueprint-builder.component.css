@@ -1,3 +1,7 @@
 .p-3 {
   border: 2px solid red;
 }
+
+.ngx-dnd-item {
+  border: 1px dotted red;
+}

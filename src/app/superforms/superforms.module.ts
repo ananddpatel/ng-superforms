@@ -7,9 +7,11 @@ import { SuperFormComponent } from './super-form/super-form.component';
 import { QuestionComponent } from './question/question.component';
 import { QuestionService } from './services/question.service';
 import { NgxSelectModule } from 'ngx-select-ex';
+// import { DndModule } from '@beyerleinf/ngx-dnd';
+import { NgxDnDModule } from '@swimlane/ngx-dnd';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgxSelectModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgxSelectModule, NgxDnDModule],
   declarations: [BlueprintBuilderComponent, SuperFormComponent, QuestionComponent],
   exports: [BlueprintBuilderComponent, SuperFormComponent, QuestionComponent],
   providers: [QuestionControlService, QuestionService]
