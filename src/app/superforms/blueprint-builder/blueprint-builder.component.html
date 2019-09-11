@@ -1,21 +1,43 @@
-<pre *ngIf="myForm">{{ myForm.value | json }}</pre>
-
 <div class="row py-3">
-  <div class="col-6 py-2 ngx-dnd-container border border-primary" ngxDroppable>
+  <div class="col-2 border border-primary" ngxDroppable>
+    <ngx-dnd-container [model]="supportedFormTypeItems" [copy]="true" [dropZones]="['builder-target-container']"> </ngx-dnd-container>
+  </div>
+  <!-- <div class="col-2 py-2 border border-primary" ngxDroppable>
     <div class="ngx-dnd-item" ngxDraggable [ngxDraggable]="['example-target']">Item 1</div>
     <div class="ngx-dnd-item" ngxDraggable [ngxDraggable]="['example-target']">Item 2</div>
     <div class="ngx-dnd-item" ngxDraggable [ngxDraggable]="['example-target']">Item 3</div>
+  </div> -->
+
+  <div class="col-8">
+    <ngb-tabset>
+      <ngb-tab title="Builder">
+        <ng-template ngbTabContent>
+          <!-- <div class="col py-2 ngx-dnd-container border border-secondary" ngxDroppable="builder-target-container"></div> -->
+          <div class="col py-2  border border-secondary">
+            <!-- <ngx-dnd-container [model]="schema.children" [copy]="false" (drop)="onDrop($event)" dropZone="builder-target-container" [removeOnSpill]="true"> </ngx-dnd-container> -->
+            <ngx-dnd-container [model]="schema.children" [copy]="false" (drop)="log($event)" dropZone="builder-target-container" [removeOnSpill]="true"> </ngx-dnd-container>
+          </div>
+
+          <button class="btn btn-primary" (click)="generateForm()">Generate</button>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Preview">
+        <ng-template ngbTabContent>
+          <form *ngIf="myForm" [formGroup]="myForm">
+            <h3 class="text-center">{{ schema.name }}</h3>
+            <ng-container *ngFor="let item of schema.children">
+              <ng-container *ngTemplateOutlet="formItem; context: { item: item, group: myForm }"></ng-container>
+            </ng-container>
+          </form>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
   </div>
 
-  <div class="col-6 py-2 ngx-dnd-container border border-secondary" ngxDroppable="example-target"></div>
+  <div class="col-2">
+    <pre *ngIf="myForm">{{ myForm.value | json }}</pre>
+  </div>
 </div>
-
-<form *ngIf="myForm" [formGroup]="myForm">
-  <h3 class="text-center">{{ schema.name }}</h3>
-  <ng-container *ngFor="let item of schema.children">
-    <ng-container *ngTemplateOutlet="formItem; context: { item: item, group: myForm }"></ng-container>
-  </ng-container>
-</form>
 
 <ng-template #formItem let-item="item" let-group="group">
   <div [formGroup]="group" class="form-group">

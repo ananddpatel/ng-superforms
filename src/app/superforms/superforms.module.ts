@@ -9,9 +9,10 @@ import { QuestionService } from './services/question.service';
 import { NgxSelectModule } from 'ngx-select-ex';
 // import { DndModule } from '@beyerleinf/ngx-dnd';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgxSelectModule, NgxDnDModule],
+  imports: [CommonModule, FormsModule, NgbModule, ReactiveFormsModule, NgxSelectModule, NgxDnDModule],
   declarations: [BlueprintBuilderComponent, SuperFormComponent, QuestionComponent],
   exports: [BlueprintBuilderComponent, SuperFormComponent, QuestionComponent],
   providers: [QuestionControlService, QuestionService]

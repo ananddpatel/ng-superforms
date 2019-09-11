@@ -3,7 +3,7 @@ export enum SupportedTypes {
   PARENT = 'PARENT',
   CHILD = 'CHILD',
   STRING = 'STRING',
-  NUMBER = 'NUMBER',
+  // NUMBER = 'NUMBER',
   TEXTAREA = 'TEXTAREA',
   DROPDOWN = 'DROPDOWN',
   RADIO = 'RADIO',
@@ -17,6 +17,8 @@ export interface ISuperFormItem {
   helptext: string;
   placeholder: string;
   options: Option[];
+
+  // addChild(child: ISuperFormItem): void;
 }
 export class SuperFormItem implements ISuperFormItem {
   placeholder = '';
@@ -40,4 +42,13 @@ export class SuperFormItem implements ISuperFormItem {
   get helptext() {
     return this._helptext;
   }
+
+
+  // addChild(child: ISuperFormItem) {
+  //   if (this.children) {
+  //     this.children.push(child);
+  //   } else {
+  //     this.children = [child];
+  //   }
+  // }
 }

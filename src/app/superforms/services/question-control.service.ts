@@ -54,7 +54,7 @@ export class QuestionControlService {
   }
 
   generateFormGroup(schema) {
-    let result = {};
+    const result = {};
     // let result = {[schema.id]: {}};
     schema.children.forEach(item => {
       if (item.children.length > 0) {
@@ -64,12 +64,9 @@ export class QuestionControlService {
         // result = { ...result, [item.id]: this.fb.array(item.options.map(_ => [false])) };
         result[item.id] = this.fb.array(item.options.map(_ => [false]));
       } else {
-        // result = { ...result, [item.id]: [''] };
         result[item.id] = [''];
       }
     });
-    console.log(result);
-
     return this.fb.group(result);
   }
 }
