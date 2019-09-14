@@ -13,9 +13,6 @@ import { SupportedTypes, ISuperFormItem, SuperFormItem } from './formModels';
 export class BlueprintBuilderComponent implements OnInit {
   @ViewChild('content') content;
   formTypes = SupportedTypes;
-  supportedFormTypeItems = Object.keys(SupportedTypes).map(
-    formType => new SuperFormItem({ id: formType + this.randInt, name: formType + this.randInt,  type: formType as any })
-  );
   builderDnDModel = [];
   // schema: ISuperFormItem = new SuperFormItem({
   //   name: 'My Demo Form',
@@ -114,6 +111,18 @@ export class BlueprintBuilderComponent implements OnInit {
   });
   jsonSchemaHidden = true;
   myForm: FormGroup;
+
+  // supportedFormTypeItems = Object.keys(SupportedTypes).map(
+  //   formType => new SuperFormItem({ id: formType + this.randInt, name: formType + this.randInt, type: formType as any })
+  // );
+  supportedFormTypeItems = [
+    new SuperFormItem({ id: SupportedTypes.CHILD, name: 'Child', type: SupportedTypes.CHILD }),
+    new SuperFormItem({ id: SupportedTypes.STRING, name: 'String', type: SupportedTypes.STRING }),
+    new SuperFormItem({ id: SupportedTypes.TEXTAREA, name: 'Textarea', type: SupportedTypes.TEXTAREA }),
+    new SuperFormItem({ id: SupportedTypes.DROPDOWN, name: 'Dropdown', type: SupportedTypes.DROPDOWN }),
+    new SuperFormItem({ id: SupportedTypes.RADIO, name: 'Radio', type: SupportedTypes.RADIO }),
+    new SuperFormItem({ id: SupportedTypes.CHECKBOX, name: 'Checkbox', type: SupportedTypes.CHECKBOX })
+  ];
 
   constructor(private modalService: NgbModal, private qcs: QuestionControlService, private fb: FormBuilder) {}
 

@@ -1,6 +1,10 @@
 <div class="row py-3">
-  <div class="col-2 border border-primary" ngxDroppable>
-    <ngx-dnd-container [model]="supportedFormTypeItems" [copy]="true" [dropZones]="['builder-target-container']"> </ngx-dnd-container>
+  <div class="col-2 border border-primary px-2">
+    <ngx-dnd-container [model]="supportedFormTypeItems" [copy]="true" [dropZones]="['builder-target-container']">
+      <ng-template let-item="model">
+        {{ item.name }}
+      </ng-template>
+    </ngx-dnd-container>
   </div>
   <!-- <div class="col-2 py-2 border border-primary" ngxDroppable>
     <div class="ngx-dnd-item" ngxDraggable [ngxDraggable]="['example-target']">Item 1</div>
@@ -15,7 +19,14 @@
           <!-- <div class="col py-2 ngx-dnd-container border border-secondary" ngxDroppable="builder-target-container"></div> -->
           <div class="col py-2  border border-secondary">
             <!-- <ngx-dnd-container [model]="schema.children" [copy]="false" (drop)="onDrop($event)" dropZone="builder-target-container" [removeOnSpill]="true"> </ngx-dnd-container> -->
-            <ngx-dnd-container [model]="schema.children" [copy]="false" (drop)="log($event)" dropZone="builder-target-container" [removeOnSpill]="true"> </ngx-dnd-container>
+            <ngx-dnd-container
+              [model]="schema.children"
+              [copy]="false"
+              (drop)="log($event)"
+              dropZone="builder-target-container"
+              [removeOnSpill]="true"
+            >
+            </ngx-dnd-container>
           </div>
 
           <button class="btn btn-primary" (click)="generateForm()">Generate</button>

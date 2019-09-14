@@ -56,17 +56,19 @@ export class QuestionControlService {
   generateFormGroup(schema) {
     const result = {};
     // let result = {[schema.id]: {}};
-    schema.children.forEach(item => {
-      if (item.children.length > 0) {
-        result[item.id] = this.generateFormGroup(item);
-        // result = { ...result, [item.id]: this.fb.group(this.generateFormGroup(item)) };
-      } else if (item.type === SupportedTypes.CHECKBOX) {
-        // result = { ...result, [item.id]: this.fb.array(item.options.map(_ => [false])) };
-        result[item.id] = this.fb.array(item.options.map(_ => [false]));
-      } else {
-        result[item.id] = [''];
-      }
-    });
+    if (schema.children && schema.children.length) {
+      schema.children.forEach(item => {
+        if (item.children && item.children.length > 0) {
+          result[item.id] = this.generateFormGroup(item);
+          // result = { ...result, [item.id]: this.fb.group(this.generateFormGroup(item)) };
+        } else if (item.type === SupportedTypes.CHECKBOX) {
+          // result = { ...result, [item.id]: this.fb.array(item.options.map(_ => [false])) };
+          result[item.id] = this.fb.array(item.options.map(_ => [false]));
+        } else {
+          result[item.id] = [''];
+        }
+      });
+    }
     return this.fb.group(result);
   }
 }

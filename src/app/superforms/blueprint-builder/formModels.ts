@@ -23,13 +23,16 @@ export interface ISuperFormItem {
 export class SuperFormItem implements ISuperFormItem {
   placeholder = '';
   type: SupportedTypes = SupportedTypes.STRING;
-  children: ISuperFormItem[] = [];
+  children: ISuperFormItem[];
   name: any = '';
   id: any = '';
   _helptext: string;
   options: Option[] = [];
   constructor(formItem: Partial<ISuperFormItem> = {}) {
     Object.assign(this, formItem);
+    if (!formItem.children && (this.type === SupportedTypes.PARENT || this.type === SupportedTypes.CHILD)) {
+      this.children = [];
+    }
   }
   set helptext(value: string) {
     this._helptext = value
@@ -42,7 +45,6 @@ export class SuperFormItem implements ISuperFormItem {
   get helptext() {
     return this._helptext;
   }
-
 
   // addChild(child: ISuperFormItem) {
   //   if (this.children) {
